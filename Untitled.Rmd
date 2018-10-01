@@ -6,5 +6,22 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
 ```
+
+```{r, message = FALSE}
+raw <- read_csv("polls_IT-parliament_2018-10-01.csv")
+```
+
+```{r}
+raw1 <- raw %>%
+  select(date, firm, n, LN, M5S, PD, FIPDLFI) %>% 
+  gather(key = "party", value = "poll", LN, M5S, PD, FIPDLFI) 
+
+raw1 %>% ggplot(aes(x = date, y = poll, col = party))+
+  geom_smooth()+
+  geom_point(alpha = .1, size = .5)
+  
+```
+
